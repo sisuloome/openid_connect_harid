@@ -18,6 +18,12 @@ use Drupal\openid_connect\Plugin\OpenIDConnectClientBase;
 class OpenIDConnectHarIDClient extends OpenIDConnectClientBase {
 
   /**
+   * HarID service base URL
+   * @var string
+   */
+  const HARID_BASE_URL = 'https://harid.ee/et';
+
+  /**
    * {@inheritdoc}
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
@@ -36,9 +42,9 @@ class OpenIDConnectHarIDClient extends OpenIDConnectClientBase {
    */
   public function getEndpoints() {
     return [
-      'authorization' => 'https://harid.ee/et/authorizations/new',
-      'token' => 'https://harid.ee/et/access_tokens',
-      'userinfo' => 'https://harid.ee/et/user_info',
+      'authorization' => self::HARID_BASE_URL . '/authorizations/new',
+      'token' => self::HARID_BASE_URL . '/access_tokens',
+      'userinfo' => self::HARID_BASE_URL . '/user_info',
     ];
   }
 
