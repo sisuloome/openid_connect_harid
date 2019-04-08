@@ -1,0 +1,18 @@
+# Schema for the configuration files of the OpenID Connect HarID module.
+
+openid_connect.settings.harid:
+  type: config_object
+  label: 'OpenID Connect HarID settings'
+  mapping:
+    enabled:
+      type: boolean
+      label: 'Enable client'
+    settings:
+      type: mapping
+      mapping:
+        client_id:
+          type: string
+          label: 'Client ID'
+        client_secret:
+          type: string
+          label: 'Client secret'

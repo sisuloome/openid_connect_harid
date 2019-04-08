@@ -1,0 +1,7 @@
+name: 'OpenID Connect HarID'
+type: module
+description: 'OpenID Connect HarID Client'
+core: 8.x
+package: 'Custom'
+dependencies:
+  - openid_connect

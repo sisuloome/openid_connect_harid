@@ -1,0 +1,39 @@
+<?php
+
+/**
+ * @file
+ * Contains openid_connect_harid.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\user\UserInterface;
+
+/**
+ * Implements hook_help().
+ */
+function openid_connect_harid_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the openid_connect_harid module.
+    case 'help.page.openid_connect_harid':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('OpenID Connect HarID Client') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_openid_connect_post_authorize().
+ */
+function openid_connect_harid_openid_connect_post_authorize(array $tokens, UserInterface $account, array $userinfo, $plugin_id) {
+  if ($plugin_id === 'harid') {
+    if (isset($userinfo['ui_locales'])) {
+      // TODO See if there should be a check for allowed values. Example: en, et, ru
+      $account->set('langcode', $userinfo['ui_locales']);
+      $account->set('preferred_langcode', $userinfo['ui_locales']);
+      $account->save();
+    }
+  }
+}

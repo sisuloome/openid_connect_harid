@@ -1,0 +1,14 @@
+{
+  "name": "drupal/openid_connect_harid",
+  "type": "drupal-module",
+  "description": "OpenID Connect HarID Client",
+  "keywords": ["Drupal", "OpenID Connect", "HarID", "Client"],
+  "license": "MIT",
+  "homepage": "https://github.com/sisuloome/openid_connect_harid",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "https://github.com/sisuloome/openid_connect_harid/issues",
+    "source": "https://github.com/sisuloome/openid_connect_harid"
+  },
+  "require": { }
+}
