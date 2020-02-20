@@ -24,10 +24,29 @@ class OpenIDConnectHarIDClient extends OpenIDConnectClientBase {
   const HARID_BASE_URL = 'https://harid.ee/et';
 
   /**
+   * HarID test service base URL
+   * @var string
+   */
+  const HARID_TEST_BASE_URL = 'https://test.harid.ee/et';
+
+  /**
    * {@inheritdoc}
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
+
+    $form['require_strong_session'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Require strong session'),
+      '#description' => $this->t('If enabled, only users with strong sessions (ID-card or Mobile-ID) would be allowed.'),
+      '#default_value' => $this->configuration['require_strong_session'],
+    ];
+    $form['use_test_idp'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Use test Identity Provider'),
+      '#description' => $this->t('If enabled, test.harid.ee will be used instead of hardi.ee.'),
+      '#default_value' => $this->configuration['use_test_idp'],
+    ];
 
     $url = 'https://harid.ee/en/pages/dev-info';
     $form['description'] = [
@@ -38,13 +57,29 @@ class OpenIDConnectHarIDClient extends OpenIDConnectClientBase {
   }
 
   /**
+   * Returns base URL for either live or test IdP service.
+   *
+   * @return string
+   *   Base URL of IdP serivice
+   */
+  private function getBaseUrl() : string {
+    if ($this->configuration['use_test_idp'] === TRUE) {
+      return self::HARID_TEST_BASE_URL;
+    }
+
+    return self::HARID_BASE_URL;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function getEndpoints() {
+    $base_url = $this->getBaseUrl();
+
     return [
-      'authorization' => self::HARID_BASE_URL . '/authorizations/new',
-      'token' => self::HARID_BASE_URL . '/access_tokens',
-      'userinfo' => self::HARID_BASE_URL . '/user_info',
+      'authorization' => $base_url . '/authorizations/new',
+      'token' => $base_url . '/access_tokens',
+      'userinfo' => $base_url . '/user_info',
     ];
   }
 
@@ -52,7 +87,9 @@ class OpenIDConnectHarIDClient extends OpenIDConnectClientBase {
    * {@inheritdoc}
    */
   public function authorize($scope = 'openid email') {
-    return parent::authorize('openid profile email roles');
+    // TODO See if we really need the personal_code scope to be present or it is
+    // enough to use the session_type and check for the strong session
+    return parent::authorize('openid profile email roles personal_code session_type');
   }
 
 }

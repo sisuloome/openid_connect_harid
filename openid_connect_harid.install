@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * @file
+ * Contains openid_connect_harid.install.
+ */
+
+/**
+ * Add require_strong_session and use_test_idp to HarID config.
+ */
+function openid_connect_harid_update_8101() {
+  $config = \Drupal::configFactory()->getEditable('openid_connect.settings.harid');
+  $settings = $config->get('settings');
+  $settings['require_strong_session'] = FALSE;
+  $settings['use_test_idp'] = FALSE;
+  $config->set('settings', $settings);
+  $config->save(TRUE);
+}

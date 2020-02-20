@@ -16,3 +16,9 @@ openid_connect.settings.harid:
         client_secret:
           type: string
           label: 'Client secret'
+        require_strong_session:
+          type: boolean
+          label: 'Require strong session'
+        use_test_idp:
+          type: boolean
+          label: 'Use test Identity Provider'

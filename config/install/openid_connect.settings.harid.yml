@@ -2,3 +2,5 @@ enabled: false
 settings:
   client_id:
   client_secret:
+  require_strong_session: false
+  use_test_idp: false

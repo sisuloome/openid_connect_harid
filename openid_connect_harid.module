@@ -37,3 +37,21 @@ function openid_connect_harid_openid_connect_post_authorize(UserInterface $accou
     }
   }
 }
+
+/**
+ * Imlements hook_openid_connect_pre_authorize().
+ */
+function openid_connect_harid_openid_connect_pre_authorize(array $tokens, $account, array $userinfo, $plugin_id, $sub) {
+  if ($plugin_id === 'harid') {
+    $settings = \Drupal::configFactory()->get('openid_connect.settings.harid')->get('settings');
+
+    // TODO See if we should also check the presence of personal_code
+    if ($settings['require_strong_session'] === TRUE && $userinfo['strong_session'] !== TRUE) {
+      \Drupal::messenger()
+        ->addError(t('A strong session is required! Please use ID-card or Moble-ID to authenticate with HarID.'));
+      return FALSE;
+    }
+  }
+
+  return TRUE;
+}
