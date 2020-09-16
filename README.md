@@ -14,7 +14,7 @@ successful authentication).
 
 # Usage
 
-**NB! Please note that current codebase requires version 8.x-1.0-beta5.
+**NB! Please note that current codebase requires version 8.x-1.0-rc1.
 Other versions could have different signatures for hook being used.**
 
 1. Register your service with [HarID]() using
