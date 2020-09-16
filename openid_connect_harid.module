@@ -27,12 +27,12 @@ function openid_connect_harid_help($route_name, RouteMatchInterface $route_match
 /**
  * Implements hook_openid_connect_post_authorize().
  */
-function openid_connect_harid_openid_connect_post_authorize(array $tokens, UserInterface $account, array $userinfo, $plugin_id) {
-  if ($plugin_id === 'harid') {
-    if (isset($userinfo['ui_locales'])) {
+function openid_connect_harid_openid_connect_post_authorize(UserInterface $account, array $context) {
+  if ($context['plugin_id'] === 'harid') {
+    if (isset($context['userinfo']['ui_locales'])) {
       // TODO See if there should be a check for allowed values. Example: en, et, ru
-      $account->set('langcode', $userinfo['ui_locales']);
-      $account->set('preferred_langcode', $userinfo['ui_locales']);
+      $account->set('langcode', $context['userinfo']['ui_locales']);
+      $account->set('preferred_langcode', $context['userinfo']['ui_locales']);
       $account->save();
     }
   }
